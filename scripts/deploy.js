@@ -12,15 +12,15 @@ async function main() {
 
   await FeedInstance.deployed();
 
-  const addr = "0x6f259637dcd74c767781e37bc6133cd6a68aa161";
+  const token = "0x6f259637dcd74c767781e37bc6133cd6a68aa161";
 
-  const intro = await FeedInstance.intro(addr);
-  const dec = await FeedInstance.decimals(addr);
-  const feedPrice = await FeedInstance.getPrice(addr);
+  const intro = await FeedInstance.intro(token);
+  const dec = await FeedInstance.decimals(token);
+  const feedPrice = await FeedInstance.getPrice(token);
 
   console.table({
-    deployed: FeedInstance.address,
-    LP: intro,
+    Token: token,
+    LP: intro.split("/")[0].trim(),
     Decimals: dec,
     Price_USD: feedPrice / 10 ** dec,
   });

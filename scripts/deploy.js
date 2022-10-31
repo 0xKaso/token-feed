@@ -14,7 +14,7 @@ async function main() {
 
   const addr = [
     "0xc770eefad204b5180df6a14ee197d99d808ee52d",
-    "0x0000000000000000000000000000000000000348"
+    "0x0000000000000000000000000000000000000348" //USD, DO NOT CHANGE
   ];
 
   const intro = await FeedInstance.intro(...addr);

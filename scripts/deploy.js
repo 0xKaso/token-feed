@@ -7,20 +7,26 @@
 const hre = require("hardhat");
 
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const ONE_YEAR_IN_SECS = 365 * 24 * 60 * 60;
-  const unlockTime = currentTimestampInSeconds + ONE_YEAR_IN_SECS;
+  const Feed = await hre.ethers.getContractFactory("Main");
+  const FeedInstance = await Feed.deploy();
 
-  const lockedAmount = hre.ethers.utils.parseEther("1");
+  await FeedInstance.deployed();
 
-  const Lock = await hre.ethers.getContractFactory("Lock");
-  const lock = await Lock.deploy(unlockTime, { value: lockedAmount });
+  const addr = [
+    "0xc770eefad204b5180df6a14ee197d99d808ee52d",
+    "0x0000000000000000000000000000000000000348"
+  ];
 
-  await lock.deployed();
+  const intro = await FeedInstance.intro(...addr);
+  const dec = await FeedInstance.decimals(...addr);
+  const feedAddress = await FeedInstance.getFeed(...addr);
+  const feedPrice = await FeedInstance.getPrice(...addr);
 
-  console.log(
-    `Lock with 1 ETH and unlock timestamp ${unlockTime} deployed to ${lock.address}`
-  );
+  console.log(`deployed to ${FeedInstance.address}`);
+  console.log("intro ", intro);
+  console.log("feedAddress ", feedAddress);
+  console.log("feedPrice ", feedPrice / 10 ** dec);
+  console.log("dec", dec);
 }
 
 // We recommend this pattern to be able to use async/await everywhere

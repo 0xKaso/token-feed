@@ -23,38 +23,25 @@ interface Registry {
 }
 
 contract Main {
-    address registryFactory = 0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf;
-    Registry RegistryFactory = Registry(registryFactory);
+    // config
+    address USD;
+    Registry RegistryFactory;
 
-    function getFeed(address tokenA, address tokenB)
-        public
-        view
-        returns (address)
-    {
-        return RegistryFactory.getFeed(tokenA, tokenB);
+    constructor() {
+        USD = 0x0000000000000000000000000000000000000348; // usd
+        address registryFactory = 0x47Fb2585D2C56Fe188D0E6ec628a38b74fCeeeDf; // chainlink registry
+        RegistryFactory = Registry(registryFactory);
     }
 
-    function getPrice(address tokenA, address tokenB)
-        external
-        view
-        returns (int256)
-    {
-        return RegistryFactory.latestAnswer(tokenA, tokenB);
+    function intro(address tokenA) external view returns (string memory) {
+        return RegistryFactory.description(tokenA, USD);
     }
 
-    function intro(address tokenA, address tokenB)
-        external
-        view
-        returns (string memory)
-    {
-        return RegistryFactory.description(tokenA, tokenB);
+    function decimals(address tokenA) external view returns (uint8) {
+        return RegistryFactory.decimals(tokenA, USD);
     }
 
-    function decimals(address tokenA, address tokenB)
-        external
-        view
-        returns (uint8)
-    {
-        return RegistryFactory.decimals(tokenA, tokenB);
+    function getPrice(address tokenA) external view returns (int256) {
+        return RegistryFactory.latestAnswer(tokenA, USD);
     }
 }

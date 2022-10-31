@@ -12,21 +12,18 @@ async function main() {
 
   await FeedInstance.deployed();
 
-  const addr = [
-    "0xc770eefad204b5180df6a14ee197d99d808ee52d",
-    "0x0000000000000000000000000000000000000348" //USD, DO NOT CHANGE
-  ];
+  const addr = "0x6f259637dcd74c767781e37bc6133cd6a68aa161";
 
-  const intro = await FeedInstance.intro(...addr);
-  const dec = await FeedInstance.decimals(...addr);
-  const feedAddress = await FeedInstance.getFeed(...addr);
-  const feedPrice = await FeedInstance.getPrice(...addr);
+  const intro = await FeedInstance.intro(addr);
+  const dec = await FeedInstance.decimals(addr);
+  const feedPrice = await FeedInstance.getPrice(addr);
 
-  console.log(`deployed to ${FeedInstance.address}`);
-  console.log("intro ", intro);
-  console.log("feedAddress ", feedAddress);
-  console.log("feedPrice ", feedPrice / 10 ** dec);
-  console.log("dec", dec);
+  console.table({
+    deployed: FeedInstance.address,
+    LP: intro,
+    Decimals: dec,
+    Price_USD: feedPrice / 10 ** dec,
+  });
 }
 
 // We recommend this pattern to be able to use async/await everywhere

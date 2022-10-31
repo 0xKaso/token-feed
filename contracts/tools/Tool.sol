@@ -3,8 +3,8 @@ pragma solidity 0.7.0;
 import "../interface/Registry.sol";
 
 contract Tool {
-    address public USD;
-    RegistryInterface public RegistryFactory;
+    address USD;
+    RegistryInterface RegistryFactory;
 
     constructor(address _registryFactory, address _USD) {
         USD = _USD; // usd

@@ -9,25 +9,19 @@ const hre = require("hardhat");
 async function main() {
   const Feed = await hre.ethers.getContractFactory("Main");
   const FeedInstance = await Feed.deploy();
-
   await FeedInstance.deployed();
 
   const token = "0x6f259637dcd74c767781e37bc6133cd6a68aa161";
-
-  const intro = await FeedInstance.intro(token);
-  const dec = await FeedInstance.decimals(token);
-  const feedPrice = await FeedInstance.getPrice(token);
+  const tokenInfo = await FeedInstance.getTokenInfo(token);
 
   console.table({
-    Token: token,
-    LP: intro.split("/")[0].trim(),
-    Decimals: dec,
-    Price_USD: feedPrice / 10 ** dec,
+    Token: tokenInfo[0],
+    LP: tokenInfo[1].split("/")[0].trim(),
+    Decimals: tokenInfo[2],
+    Price_USD: tokenInfo[3] / 10 ** tokenInfo[2],
   });
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
   console.error(error);
   process.exitCode = 1;

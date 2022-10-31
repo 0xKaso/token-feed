@@ -1,13 +1,13 @@
 pragma solidity 0.7.0;
+pragma experimental ABIEncoderV2;
 
 interface FeedInterface {
-    function getTokenInfo(address token)
-        external
-        view
-        returns (
-            address,
-            string memory,
-            uint8,
-            int
-        );
+    struct TokenInfo {
+        address token;
+        string tokenLP;
+        uint8 decimals;
+        int price;
+    }
+
+    function getTokenInfo(address token) external view returns (TokenInfo memory);
 }
